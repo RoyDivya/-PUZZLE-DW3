@@ -35,7 +35,8 @@
               mat-flat-button
               color="primary"
               (click)="addBookToReadingList(book)"
-              [disabled]="book.isAdded"              
+              [disabled]="book.isAdded"
+              data-testing="add-book-button"              
             >
               Want to Read
             </button>

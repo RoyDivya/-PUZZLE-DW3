@@ -31,7 +31,7 @@ export class BookSearchComponent  {
   }
 
   addBookToReadingList(book: Book) {
-    this.store.dispatch(addToReadingList({ book }));
+    this.store.dispatch(addToReadingList({ book , add:false }));
   }
 
   searchExample() {
