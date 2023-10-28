@@ -62,6 +62,7 @@ describe('ToReadEffects', () => {
       });
 
       httpMock.expectOne('/api/reading-list/A/finished').flush({ item: Item, finishedDate: finishedDate, type: '[Reading List API] Mark book as finished' })
+      unsubscribe$.next();
     });
   });
 
