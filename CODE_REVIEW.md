@@ -42,5 +42,5 @@
 1. Added `alt` attribute to `img` tags as it specifies an alternate text for image in case the image is not loaded in book-search component.
 2. Added `alt` attribute to `img` tags as it specifies an alternate text for image in case the image is not loaded in reading-list component.
 3. Added `aria-label` attribute with appropriate value in the elements wherever required to make accessible for screen readers in book-search.component.html and  app.component.html
-4. The link `JavaScript` in `book-search.component.html` is made focusable and accessible by adding `href = "#"` attribute. 
+4. In `book-search.component.html` To improve accessibility, the anchor tag (<a>) used as a button is replaced with an actual button element (<button>) and a click event listener is used.
 5. The buttons can be made visually focusable and accessible. The closing button of reading list in `app.component.html` is made focusable by adding outline in `app.component.scss`.
