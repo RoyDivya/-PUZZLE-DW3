@@ -30,7 +30,7 @@ export class ReadingListService {
   }
   
   async markBookAsFinished(id: string, finishDate: string) {
-    this.storage.update(list => list.filter(listItem =>
+    this.storage.update(list => list.map(listItem =>
       listItem.bookId !== id ? listItem : { ...listItem, finishedDate: finishDate, finished: true }
     ));
   }

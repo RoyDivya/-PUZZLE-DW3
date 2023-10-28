@@ -44,8 +44,14 @@ describe('ReadingListComponent', () => {
 
   describe('markBookAsFinished()', () => {
     it('should dispatch markBookAsFinished action when user completes reading', () => {
-      component.markBookAsFinished(createReadingListItem('A'));
-      expect(store.dispatch).toHaveBeenCalled();
+      const item = createReadingListItem('A');
+      const finishedDate = new Date().toISOString();
+      component.markBookAsFinished(item);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        type: "[Reading List API] Mark book as finished",
+        item,
+        finishedDate
+      });
     });
   });
 });

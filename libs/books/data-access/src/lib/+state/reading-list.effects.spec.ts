@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
@@ -7,11 +7,13 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { SharedTestingModule, createReadingListItem  } from '@tmo/shared/testing';
 import { ReadingListEffects } from './reading-list.effects';
 import * as ReadingListActions from './reading-list.actions';
+import { takeUntil } from 'rxjs/operators';
 
 describe('ToReadEffects', () => {
   let actions: ReplaySubject<any>;
   let effects: ReadingListEffects;
   let httpMock: HttpTestingController;
+  let unsubscribe$: Subject<void>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,6 +27,7 @@ describe('ToReadEffects', () => {
 
     effects = TestBed.inject(ReadingListEffects);
     httpMock = TestBed.inject(HttpTestingController);
+    unsubscribe$ = new Subject<void>();
   });
 
   describe('loadReadingList$', () => {
@@ -32,7 +35,8 @@ describe('ToReadEffects', () => {
       actions = new ReplaySubject();
       actions.next(ReadingListActions.init());
 
-      effects.loadReadingList$.subscribe(action => {
+      effects.loadReadingList$.pipe(takeUntil(unsubscribe$))
+        .subscribe((action) => {
         expect(action).toEqual(
           ReadingListActions.loadReadingListSuccess({ list: [] })
         );
@@ -43,13 +47,14 @@ describe('ToReadEffects', () => {
     });
   });
   describe('markBookAsFinished$', () => {
-    it('should work', done => {
+    it('should mark the book as finished when user clicks on button ', done => {
       actions = new ReplaySubject();
       const Item = createReadingListItem('A');
       const finishedDate = new Date().toISOString();
       actions.next(ReadingListActions.markBookAsFinished({ item: Item, finishedDate: finishedDate }));
 
-      effects.markBookAsFinished$.subscribe(action => {
+      effects.markBookAsFinished$.pipe(takeUntil(unsubscribe$))
+      .subscribe((action) => {
         expect(action).toEqual(
           ReadingListActions.markBookAsFinished({ item: Item, finishedDate: finishedDate })
           );
