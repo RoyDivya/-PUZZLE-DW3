@@ -29,6 +29,11 @@ describe('ToReadEffects', () => {
     httpMock = TestBed.inject(HttpTestingController);
     unsubscribe$ = new Subject<void>();
   });
+  
+  afterEach (()=>{
+    unsubscribe$.next();
+    unsubscribe$.complete();
+  })
 
   describe('loadReadingList$', () => {
     it('should work', done => {
@@ -61,8 +66,7 @@ describe('ToReadEffects', () => {
         done();
       });
 
-      httpMock.expectOne('/api/reading-list/A/finished').flush({ item: Item, finishedDate: finishedDate, type: '[Reading List API] Mark book as finished' })
-      unsubscribe$.next();
+      httpMock.expectOne('/api/reading-list/A/finished').flush({ item: Item, finishedDate: finishedDate, type: '[Reading List API] Mark book as finished' })      
     });
   });
 
